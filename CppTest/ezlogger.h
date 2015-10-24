@@ -29,7 +29,6 @@ static const char* EZ_TAG = "EZLOG";
 #define _(x) std::make_pair(x, #x)
 
 #ifdef GECKO // GECKO
-
 #define EZ_NONE "\033[m"
 #define EZ_RED "\033[0;32;31m"
 #define EZ_LIGHT_RED "\033[1;31m"
@@ -70,117 +69,119 @@ nsString foo = NS_LITERAL_STRING
 nsCString bar = NS_LITERAL_CSTRING
 
 */
-// For nsAutoString
-static void printInternal(const nsAutoString& aAutoStr, const char* const aObjName)
-{
-  printf_stderr("%s = %s", aObjName, NS_ConvertUTF16toUTF8(aAutoStr).get());
-}
+namespace {
+  // For nsAutoString
+  void printInternal(const nsAutoString& aAutoStr, const char* const aObjName)
+  {
+    printf_stderr("%s = %s", aObjName, NS_ConvertUTF16toUTF8(aAutoStr).get());
+  }
 
-// For nsAutoCString
-static void printInternal(const nsAutoCString& aAutoCStr, const char* const aObjName)
-{
-  printf_stderr("%s = %s", aObjName, aAutoCStr.get());
-}
+  // For nsAutoCString
+  void printInternal(const nsAutoCString& aAutoCStr, const char* const aObjName)
+  {
+    printf_stderr("%s = %s", aObjName, aAutoCStr.get());
+  }
 
-// For nsACString
-static void printInternal(const nsACString& aACStr, const char* const aObjName)
-{
-  printf_stderr("%s = %s", aObjName, nsPromiseFlatCString(aACStr).get());
-}
+  // For nsACString
+  void printInternal(const nsACString& aACStr, const char* const aObjName)
+  {
+    printf_stderr("%s = %s", aObjName, nsPromiseFlatCString(aACStr).get());
+  }
 
-// For nsAString
-static void printInternal(const nsAString& aAStr, const char* const aObjName)
-{
-  printf_stderr("%s = %s", aObjName,
-    NS_ConvertUTF16toUTF8(nsPromiseFlatString(aAStr).get()).get());
-}
+  // For nsAString
+  void printInternal(const nsAString& aAStr, const char* const aObjName)
+  {
+    printf_stderr("%s = %s", aObjName,
+      NS_ConvertUTF16toUTF8(nsPromiseFlatString(aAStr).get()).get());
+  }
 
-static void printInternal(nsresult aRes, const char* const aObjName)
-{
-  printf_stderr("%s = %x", aObjName, static_cast<uint32_t>(aRes));
+  void printInternal(nsresult aRes, const char* const aObjName)
+  {
+    printf_stderr("%s = %x", aObjName, static_cast<uint32_t>(aRes));
+  }
 }
-
 #endif
-// For std string
-static void printInternal(std::string aStdStr, const char* const aObjName)
-{
-  printf_stderr("%s = %s", aObjName, aStdStr.c_str());
-}
-// For pointer
-static void printInternal(void* aPtr, const char* const aObjName)
-{
-  printf_stderr("%s = %p", aObjName, aPtr);
-}
-// For c style string
-static void printInternal(const char* aStr, const char* const aObjName)
-{
-  printf_stderr("%s = %s", aObjName, aStr);
-}
-// For float
-static void printInternal(float aVal, const char* const aObjName)
-{
-  printf_stderr("%s = %f", aObjName, aVal);
-}
-// For double
-static void printInternal(double aVal, const char* const aObjName)
-{
-  printf_stderr("%s = %lf", aObjName, aVal);
-}
-// For bool
-static void printInternal(bool aVal, const char* const aObjName)
-{
-  printf_stderr("%s = %d", aObjName, aVal);
-}
-// For int32_t
-static void printInternal(int32_t aVal, const char* const aObjName)
-{
-  printf_stderr("%s = %d", aObjName, aVal);
-}
-// For uint32_t
-static void printInternal(uint32_t aVal, const char* const aObjName)
-{
-  printf_stderr("%s = %u", aObjName, aVal);
-}
-// For uint64_t
-static void printInternal(uint64_t aVal, const char* const aObjName)
-{
-  printf_stderr("%s = %lu", aObjName, aVal);
-}
-// For int64_t
-static void printInternal(int64_t aVal, const char* const aObjName)
-{
-  printf_stderr("%s = %ld", aObjName, aVal);
-}
+namespace {
+  // For std string
+  void printInternal(std::string aStdStr, const char* const aObjName)
+  {
+    printf_stderr("%s = %s", aObjName, aStdStr.c_str());
+  }
+  // For pointer
+  void printInternal(void* aPtr, const char* const aObjName)
+  {
+    printf_stderr("%s = %p", aObjName, aPtr);
+  }
+  // For c style string
+  void printInternal(const char* aStr, const char* const aObjName)
+  {
+    printf_stderr("%s = %s", aObjName, aStr);
+  }
+  // For float
+  void printInternal(float aVal, const char* const aObjName)
+  {
+    printf_stderr("%s = %f", aObjName, aVal);
+  }
+  // For double
+  void printInternal(double aVal, const char* const aObjName)
+  {
+    printf_stderr("%s = %lf", aObjName, aVal);
+  }
+  // For bool
+  void printInternal(bool aVal, const char* const aObjName)
+  {
+    printf_stderr("%s = %d", aObjName, aVal);
+  }
+  // For int32_t
+  void printInternal(int32_t aVal, const char* const aObjName)
+  {
+    printf_stderr("%s = %d", aObjName, aVal);
+  }
+  // For uint32_t
+  void printInternal(uint32_t aVal, const char* const aObjName)
+  {
+    printf_stderr("%s = %u", aObjName, aVal);
+  }
+  // For uint64_t
+  void printInternal(uint64_t aVal, const char* const aObjName)
+  {
+    printf_stderr("%s = %lu", aObjName, aVal);
+  }
+  // For int64_t
+  void printInternal(int64_t aVal, const char* const aObjName)
+  {
+    printf_stderr("%s = %ld", aObjName, aVal);
+  }
 
 
-static void print() {
-  printf_stderr(EZ_NONE"\n");
-}
+  void ezPrint() {
+    printf_stderr(EZ_NONE"\n");
+  }
 
-template<class Type>
-void print(
-  const std::pair<Type, const char *> &arg) {
-  printInternal(arg.first, arg.second);
-  print();
-}
+  template<class Type>
+  void ezPrint(
+    const std::pair<Type, const char *> &arg) {
+    printInternal(arg.first, arg.second);
+    ezPrint();
+  }
 
-template<class Type, class... Types>
-void print(
-  const std::pair<Type, const char *> &arg,
-  const std::pair<Types, const char *> &... args) {
-  // first is the real object, second is the object variable name.
-  printInternal(arg.first, arg.second);
-  printf_stderr(", ");
-  print(args...);
-}
+  template<class Type, class... Types>
+  void ezPrint(
+    const std::pair<Type, const char *> &arg,
+    const std::pair<Types, const char *> &... args) {
+    // first is the real object, second is the object variable name.
+    printInternal(arg.first, arg.second);
+    printf_stderr(", ");
+    ezPrint(args...);
+  }
 
-template<class... Types>
-void PInternal(const char* aColor, const char* aFileName, const int aLineNum, Types&&...  args)
-{
-  printf_stderr("[%s] %s%s(%d) ", EZ_TAG, aColor, aFileName, aLineNum);
-  print(std::forward<Types>(args)...);
-}
-
+  template<class... Types>
+  void PInternal(const char* aColor, const char* aFileName, const int aLineNum, Types&&...  args)
+  {
+    printf_stderr("[%s] %s%s(%d) ", EZ_TAG, aColor, aFileName, aLineNum);
+    ezPrint(std::forward<Types>(args)...);
+  }
+} //namespace
 #define P(...) PInternal("", __FUNCTION__, __LINE__, ##__VA_ARGS__)
 #define PR(...) PInternal(EZ_LIGHT_RED, __FUNCTION__, __LINE__, ##__VA_ARGS__)
 #define PG(...) PInternal(EZ_LIGHT_GREEN, __FUNCTION__, __LINE__, ##__VA_ARGS__)
