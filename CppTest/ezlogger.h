@@ -4,6 +4,7 @@
 #include <utility>
 #include <string>
 #include <stdint.h>
+#include <cinttypes>
 
 #ifndef GECKO // GECKO
 #define printf_stderr printf
@@ -145,12 +146,12 @@ namespace {
   // For uint64_t
   void printInternal(uint64_t aVal, const char* const aObjName)
   {
-    printf_stderr("%s = %lu", aObjName, aVal);
+    printf_stderr("%s =%" PRIu64, aObjName, aVal);
   }
   // For int64_t
   void printInternal(int64_t aVal, const char* const aObjName)
   {
-    printf_stderr("%s = %ld", aObjName, aVal);
+    printf_stderr("%s = %" PRId64, aObjName, aVal);
   }
 
 
@@ -193,6 +194,5 @@ namespace {
 #define PG0(...) PInternal(EZ_LIGHT_GREEN, __FUNCTION__, __LINE__)
 #define PB0(...) PInternal(EZ_LIGHT_BLUE, __FUNCTION__, __LINE__)
 #define PX0(EZ_COLOR, ...) PInternal(EZ_COLOR, __FUNCTION__, __LINE__)
-
 
 #endif
